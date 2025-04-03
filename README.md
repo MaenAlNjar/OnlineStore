@@ -31,8 +31,16 @@ Make sure you have the following installed:
 - **.NET SDK**: For running the ASP.NET Core backend.
 - **PostgreSQL / MongoDB**: Depending on your choice of database.
 
-### Frontend Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YourUsername/OnlineStore.git
-   cd OnlineStore/Frontend
+### Additions in progress
+
+- **Payment & Checkout Enhancements Payment Integration:Integrate Stripe or PayPal for secure payments.
+- **Address Management: Let users save multiple addresses for faster checkout.
+- **Promo Codes & Discounts: Add a discount system for special promotions.
+- **Stock Management: Track product availability dynamically. 
+- **Engagement & Marketing Product Reviews & Ratings: Let customers leave feedback on products.
+- **Email Notifications: Send order confirmations and promotions via email.
+- **Related Products: Suggest similar items on the product details page. 
+- **Advanced Features Live Chat Support: Offer instant customer support.
+- **Multi-language Support: If targeting different regions.
+- **Dark Mode Toggle: Give users an option to switch themes.
+
