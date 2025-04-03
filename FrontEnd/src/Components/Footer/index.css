@@ -1,0 +1,200 @@
+/* General Footer Styles */
+.footer {
+    background-color: white;
+  }
+  
+  /* Newsletter Section */
+  .newsletter {
+    background-color: #facc15;
+    padding: 16px;
+  }
+  
+  .newsletter-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  @media (min-width: 768px) {
+    .newsletter-container {
+      flex-direction: row;
+    }
+  }
+  
+  .newsletter-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .newsletter-icon {
+    height: 24px;
+    width: 24px;
+    color: #4b5563;
+  }
+  
+  .newsletter-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1f2937;
+  }
+  
+  .newsletter-text {
+    color: #4b5563;
+  }
+  
+  .coupon {
+    font-weight: bold;
+  }
+  
+  /* Newsletter Input */
+  .newsletter-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  
+  .newsletter-input {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    width: 320px;
+    border: 1px solid #d1d5db;
+    outline: none;
+  }
+  
+  .newsletter-button {
+    background-color: #111827;
+    color: white;
+    padding: 8px 24px;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .newsletter-button:hover {
+    background-color: #374151;
+  }
+  
+  /* Footer Main Content */
+  .footer-container {   
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+ 
+  /* Footer Sections */
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1f2937;
+  }
+  
+  .dot {
+    color: #facc15;
+  }
+  
+  .footer-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .footer-icon {
+    color: yellow; 
+    font-size: 40px;
+  }
+  
+  .contact-text {
+    font-size: 14px;
+    color: #000000;
+  }
+  
+  .contact-number {
+    font-weight: bold;
+    color: #1f2937;
+  }
+  
+  .footer-address {
+    color: #4b5563;
+    margin-bottom: 16px;
+  }
+  
+  /* Footer Links */
+  .footer-title {
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #1f2937;
+  }
+  
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-list li {
+    margin-bottom: 8px;
+  }
+  
+  .footer-link {
+    text-decoration: none;
+    color: #4b5563;
+  }
+  
+  .footer-link:hover {
+    color: #1f2937;
+  }
+  
+  /* Social Links */
+  .footer-social {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .social-link {
+    color: #4b5563;
+    text-decoration: none;
+  }
+  
+  .social-link:hover {
+    color: #1f2937;
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    background-color: #f3f4f6;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-copyright {
+    color: #4b5563;
+  }
+  
+  .footer-payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .payment-icon {
+    font-size: 32px;
+    color: #2563eb;
+  }
+  

@@ -1,0 +1,21 @@
+.filter-container {
+    padding: 20px;
+    max-width: 500px;
+  }
+  
+  input, select, button {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+  }
+  
+  .product-list {
+    margin-top: 20px;
+  }
+  
+  .product-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  

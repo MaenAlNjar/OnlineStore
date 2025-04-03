@@ -1,0 +1,23 @@
+.category {
+    margin-bottom: 2rem;
+}
+
+.products {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    max-width: 200px;
+    text-align: center;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}

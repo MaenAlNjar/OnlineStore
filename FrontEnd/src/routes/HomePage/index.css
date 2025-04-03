@@ -1,0 +1,10 @@
+.homepage {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px; 
+  }
+  .Homepage-Contiener {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }

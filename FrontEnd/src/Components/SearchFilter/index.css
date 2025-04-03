@@ -1,0 +1,253 @@
+.search-filter-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;  
+}
+
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;  
+  background-color: white;
+  border: 2px solid #facc15; /* Yellow */
+  border-radius: 50px;
+  width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  position: relative;
+  z-index: 5;
+}
+
+.search-input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 50px 0 0 50px;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  width: 500px;
+ 
+}
+
+.category-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.category-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  display: none;
+  z-index: 10;
+}
+
+.category-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f4f4f4;
+}
+
+.search-button {
+  background-color: #facc15;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 0 50px 50px 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-button:hover {
+  background-color: #eab308;
+}
+
+.filtered-products {
+  position: absolute;
+  top: 290px;
+  right: 250px;
+  width: 400px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+@media screen and (min-width: 1024px) {
+  .filtered-products {
+    width: 400px;
+    right: 250px;
+  }
+}
+
+/* Medium screens (tablet) */
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  .filtered-products {
+    width: 350px;
+    right: 150px;
+    top: 270px;
+  }
+  
+  .product-card img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Small screens (large mobile) */
+@media screen and (max-width: 767px) and (min-width: 481px) {
+  .filtered-products {
+    width: 90%;
+    right: 5%;
+    left: 5%;
+    top: 250px;
+  }
+  
+  .product-details h4 {
+    font-size: 13px;
+  }
+  
+  .product-details span {
+    font-size: 13px;
+  }
+}
+
+/* Extra small screens (small mobile) */
+@media screen and (max-width: 480px) {
+  .filtered-products {
+    width: 95%;
+    right: 2.5%;
+    left: 2.5%;
+    top: 230px;
+    padding: 8px;
+  }
+  
+  .product-card {
+    padding: 8px;
+  }
+  
+  .product-card img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .product-details h4 {
+    font-size: 12px;
+  }
+  
+  .product-details span {
+    font-size: 12px;
+  }
+  
+  .product-card:hover {
+    transform: none; /* Disable hover effect on mobile */
+  }
+}
+
+/* Handle very small screens */
+@media screen and (max-width: 320px) {
+  .filtered-products {
+    top: 220px;
+    padding: 6px;
+  }
+  
+  .product-card {
+    gap: 8px;
+  }
+  
+  .product-card img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Ensure dropdown is always visible on mobile */
+@media screen and (max-height: 600px) {
+  .filtered-products {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+
+
+
+
+
+
+
+
+.product-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.product-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.product-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-details h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.product-details span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #facc15; /* Yellow for price */
+}

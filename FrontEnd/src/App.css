@@ -1,0 +1,12 @@
+.layout {
+  background-color: #f0f2f5;
+  
+}
+/* Custom ToastContainer style to center it on the screen */
+.custom-toast-container {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999; /* Ensure it's above other content */
+}

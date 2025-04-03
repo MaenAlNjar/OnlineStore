@@ -1,0 +1,11 @@
+.Header-Continer {
+    width: 1300px;
+}
+.bg-cover {
+    transition: background-image 0.5s ease-in-out;
+  }
+  .Slider{
+    width: 100%;  
+    margin-left:2rem ;
+    height: 400px;
+  }
