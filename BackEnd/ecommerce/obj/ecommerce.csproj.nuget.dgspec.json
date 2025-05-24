@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\ecommerce\\ecommerce\\ecommerce.csproj": {}
+    "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\OnlineStore\\BackEnd\\ecommerce\\ecommerce.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\ecommerce\\ecommerce\\ecommerce.csproj": {
+    "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\OnlineStore\\BackEnd\\ecommerce\\ecommerce.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\ecommerce\\ecommerce\\ecommerce.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\OnlineStore\\BackEnd\\ecommerce\\ecommerce.csproj",
         "projectName": "ecommerce",
-        "projectPath": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\ecommerce\\ecommerce\\ecommerce.csproj",
+        "projectPath": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\OnlineStore\\BackEnd\\ecommerce\\ecommerce.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\ecommerce\\ecommerce\\obj\\",
+        "outputPath": "C:\\Users\\USER\\OneDrive\\Desktop\\CodePlanB\\Commerce-React + .net\\OnlineStore\\BackEnd\\ecommerce\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",

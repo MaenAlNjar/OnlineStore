@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
-import axios from "axios";
-
+import apiRequest from "../../lip/apiReq";
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -31,11 +30,10 @@ const Navbar = () => {
   }, [userData]);
 
   const fetchCart = async () => {
-    if (!userData?.id) return;
+    if (!userData?._id) return;
     try {
-      const response = await axios.get(
-        `https://localhost:7226/user-cart/${userData.id}`
-      );
+      const response = await apiRequest.get(`cart/user-cart/${userData._id}`);
+
       const cart = response.data.cart.products || [];
       setCartItems(cart);
 
@@ -85,9 +83,11 @@ const Navbar = () => {
           <a href="/" className="nav-link">
             Home
           </a>
-          <a href="/auth/AdminPage" className="nav-link">
-            Admin
-          </a>
+          {userData.role === "admin" && (
+            <a href="/auth/AdminPage" className="nav-link">
+              Admin
+            </a>
+          )}
           <a href="/services" className="nav-link">
             Services
           </a>
@@ -95,6 +95,7 @@ const Navbar = () => {
             Contact
           </a>
         </div>
+
         <div className="auth-section">
           {isLoggedIn && (
             <button className="cart-button" onClick={toggleSidebar}>

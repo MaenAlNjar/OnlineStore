@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import "./index.css";
 import axios from "axios";
-
+import apiRequest from "../../lip/apiReq"
 const SearchFilter = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
@@ -16,7 +16,7 @@ const SearchFilter = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://localhost:7226/Category/all");
+        const response = await apiRequest.get("categories/all");
         if (response.data.success) {
           setCategories(response.data.data);
         } else {
@@ -44,7 +44,7 @@ const SearchFilter = () => {
           selectedCategory !== "All Categories"
             ? categories.find((cat) => cat.name === selectedCategory)?.id
             : null;
-        const response = await axios.get("https://localhost:7226/product/filter", {
+        const response = await apiRequest.get("products/filter", {
           params: {
             name: searchTerm,
             categoryId: categoryId,

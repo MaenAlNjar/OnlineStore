@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./index.css"
+import "./index.css";
+import apiRequest from "../../lip/apiReq";
+
 const CreateProduct = () => {
   const initialProductState = {
     name: "",
     description: "",
     price: "",
     categoryId: "",
-    categoryName: "", // Automatically set based on categoryId
-    imageUrl: null,
+    categoryName: "",
+    image: null,
   };
 
   const [categories, setCategories] = useState([]);
@@ -19,12 +21,11 @@ const CreateProduct = () => {
     error: null,
   });
 
-  // Fetch categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get("https://localhost:7226/Category/all");
-        setCategories(data.data || []); // Assuming `data.data` contains the category list
+        const { data } = await apiRequest.get("categories/all");
+        setCategories(data.data || []);
       } catch (err) {
         console.error("Error fetching categories:", err);
       }
@@ -32,11 +33,9 @@ const CreateProduct = () => {
     fetchCategories();
   }, []);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
-    // Check if the categoryId is being updated
     if (name === "categoryId") {
       const selectedCategory = categories.find(
         (category) => category.id === parseInt(value)
@@ -44,17 +43,21 @@ const CreateProduct = () => {
       setProductData((prev) => ({
         ...prev,
         [name]: value,
-        categoryName: selectedCategory ? selectedCategory.name : "", // Set categoryName based on selected category
+        categoryName: selectedCategory ? selectedCategory.name : "",
+      }));
+    } else if (type === "file") {
+      setProductData((prev) => ({
+        ...prev,
+        image: files[0], // Save the selected image file
       }));
     } else {
       setProductData((prev) => ({
         ...prev,
-        [name]: type === "file" ? files[0] : value,
+        [name]: value,
       }));
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ message: "", loading: true, error: null });
@@ -65,19 +68,19 @@ const CreateProduct = () => {
       }
 
       const formData = new FormData();
-      formData.append("Name", productData.name);
-      formData.append("Description", productData.description);
-      formData.append("Price", parseFloat(productData.price));
-      formData.append("CategoryId", parseInt(productData.categoryId));
-      formData.append("Category.Name", productData.categoryName); // Send categoryName
-      if (productData.imageUrl) {
-        formData.append("ImageUrl", productData.imageUrl);
+      formData.append("name", productData.name);
+      formData.append("description", productData.description);
+      formData.append("price", parseFloat(productData.price));
+      formData.append("categoryId", productData.categoryId);
+      if (productData.image) {
+        formData.append("image", productData.image); // Add image to formData
       }
 
-      const { data } = await axios.post(
-        "https://localhost:7226/Product/create",
-        formData
-      );
+      const { data } = await apiRequest.post("products/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      });
 
       if (data.success) {
         setStatus({
@@ -85,8 +88,8 @@ const CreateProduct = () => {
           loading: false,
           error: null,
         });
-        setProductData(initialProductState);
-        document.querySelector('input[type="file"]').value = ""; // Clear file input
+        setProductData(initialProductState); // Reset form data
+        document.querySelector('input[type="file"]').value = ""; // Clear the file input
       } else {
         throw new Error(data.message);
       }
@@ -101,71 +104,77 @@ const CreateProduct = () => {
 
   return (
     <div className="create-product-container">
-    <h1>Create Product</h1>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Product Name *</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={productData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Description</label>
-        <textarea
-          name="description"
-          placeholder="Product Description"
-          value={productData.description}
-          onChange={handleChange}
-        ></textarea>
-      </div>
-      <div>
-        <label>Price *</label>
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={productData.price}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Category *</label>
-        <select
-          name="categoryId"
-          value={productData.categoryId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select a category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Product Image</label>
-        <input
-          type="file"
-          name="imageUrl"
-          onChange={handleChange}
-          accept="image/*"
-        />
-      </div>
-      <button type="submit" disabled={status.loading}>
-        {status.loading ? "Submitting..." : "Submit"}
-      </button>
-    </form>
-    {status.message && <p>{status.message}</p>}
-    {status.error && <p style={{ color: "red" }}>{status.error}</p>}
-  </div>
+      <h1>Create Product</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Product Name *</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            value={productData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Description</label>
+          <textarea
+            name="description"
+            placeholder="Product Description"
+            value={productData.description}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <div>
+          <label>Price *</label>
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={productData.price}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Category *</label>
+          <select
+            name="categoryId"
+            value={productData.categoryId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Product Image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit" disabled={status.loading}>
+          {status.loading ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+      {status.message && <p>{status.message}</p>}
+      {status.error && (
+        <p style={{ color: "red" }}>
+          {typeof status.error === "string"
+            ? status.error
+            : status.error.message || "An error occurred"}
+        </p>
+      )}
+    </div>
   );
 };
 

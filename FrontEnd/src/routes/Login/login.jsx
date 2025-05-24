@@ -1,37 +1,37 @@
-import React, { useState , useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
+import apiRequest from "../../lip/apiReq.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://localhost:7226/login", {
-        email: email,
-        password: password,
+      const response = await apiRequest.post("users/login", {
+        email,
+        password,
       });
 
       if (response.data.success) {
-        
-        const user = response.data.user; 
-        console.log(user.userName);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        const user = response.data.user;
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
-        navigate("/auth/HomePage", { state: { user } }); 
+        navigate("/auth/HomePage", { state: { user } });
       }
     } catch (error) {
-      setError(error.response?.data?.message || "An error occurred while logging in.");
+      setError(
+        error.response?.data?.message || "An error occurred while logging in."
+      );
     }
   };
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
-      navigate("/auth/HomePage"); 
+      navigate("/auth/HomePage");
     }
   }, [navigate]);
   return (
@@ -57,7 +57,12 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="button">Login</button>
+        <button type="submit" className="button">
+          Login
+        </button>
+        <p>
+          Don't have an account? <Link to="/Rigster">Register here</Link>
+        </p>
       </form>
     </div>
   );

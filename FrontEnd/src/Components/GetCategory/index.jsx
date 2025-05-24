@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./index.css"
+import apiRequest from "../../lip/apiReq.js";
+
 const CategoriesWithProducts = () => {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +12,7 @@ const CategoriesWithProducts = () => {
         // Fetch categories with products
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('https://localhost:7226/Category/all');
+                const response = await apiRequest.get('categories/all');
                 if (response.data.success) {
                     setCategories(response.data.data);
                 } else {

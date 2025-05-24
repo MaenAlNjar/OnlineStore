@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./index.css";
 import { Link } from "react-router-dom";
+import apiRequest from "../../lip/apiReq";
 
 const TAGS = {
   1: "BestSale",
   2: "TopRated",
   3: "OnSale",
-  4: "Featured",
+  0: "Featured",
 };
 
 const TABS = [
@@ -19,21 +19,16 @@ const TABS = [
 
 const ProductGrid = () => {
   const [products, setProducts] = useState([]);
-  const [wishlist, setWishlist] = useState(new Set()); 
+  const [wishlist, setWishlist] = useState(new Set());
   const [selectedTab, setSelectedTab] = useState("Featured");
   const [error, setError] = useState(null);
+  const [wishlistLoaded, setWishlistLoaded] = useState(false);
 
   useEffect(() => {
     const GetProduct = async () => {
       try {
-        const response = await axios.get("https://localhost:7226/Product/all");
-       
-
-        if (response.data) {
-          setProducts(response.data);
-        } else {
-          setError("Invalid response format. Check API structure.");
-        }
+        const response = await apiRequest.get("products/all");
+        setProducts(response.data || []);
       } catch (err) {
         setError("An error occurred while fetching products.");
       }
@@ -45,68 +40,63 @@ const ProductGrid = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));  
+        const userRaw = localStorage.getItem("user");
+        if (!userRaw) throw new Error("No user in localStorage");
 
-        if (!user || !user.id) {
-          console.error("User data is missing or incorrect:", user);
-        } else {
-          console.log("User ID:", user.id);
-        }
-        
-  
-       
-        // Pass userId as a query parameter
-        const response = await axios.get(`https://localhost:7226/Wishlist/user-wishlist?userId=${user.id}`);
-        setWishlist(new Set(response.data.map((item) => item.productId)));
+        const user = JSON.parse(userRaw);
+        if (!user._id) throw new Error("User ID missing");
+
+        const response = await apiRequest.get(
+          `wishlist/user-wishlist?userId=${user._id}`
+        );
+
+        const productIds = response.data.map(
+          (item) => item.productId?._id || item.productId
+        );
+
+        setWishlist(new Set(productIds));
+        localStorage.setItem("wishlist", JSON.stringify(productIds));
       } catch (err) {
         console.error("Failed to fetch wishlist", err);
+
+        const cached = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        setWishlist(new Set(cached));
+      } finally {
+        setWishlistLoaded(true);
       }
     };
-  
+
     fetchWishlist();
   }, []);
-  
 
   const toggleWishlist = async (productId) => {
-    const user = JSON.parse(localStorage.getItem("user"));  
-  
-    if (!user || !user.id) {
-      console.error("User not found.");
-      return;
-    }
-  
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?._id) return;
+
     try {
-      const response = await axios.get(`https://localhost:7226/Wishlist/check/${user.id}/${productId}`);
-      const isInWishlist = response.data;
-  
+      const response = await apiRequest.get(
+        `wishlist/check/${user._id}/${productId}`
+      );
+      const isInWishlist = response.data.exists;
+
       if (isInWishlist) {
-        await axios.delete(`https://localhost:7226/Wishlist/remove/${user.id}/${productId}`);
-        console.log("Product removed from wishlist.");
-  
-        // Update the state immediately
-        setWishlist((prevWishlist) => {
-          const updatedWishlist = new Set(prevWishlist);
-          updatedWishlist.delete(productId);
-          return updatedWishlist;
+        await apiRequest.delete(`wishlist/remove/${user._id}/${productId}`);
+        setWishlist((prev) => {
+          const updated = new Set(prev);
+          updated.delete(productId);
+          return updated;
         });
-  
       } else {
-        // Add item to wishlist
-        await axios.post("https://localhost:7226/Wishlist/add", {
-          userId: user.id,
+        await apiRequest.post("wishlist/add", {
+          userId: user._id,
           productId,
         });
-        console.log("Product added to wishlist.");
-  
-        // Update the state immediately
-        setWishlist((prevWishlist) => new Set(prevWishlist).add(productId));
+        setWishlist((prev) => new Set(prev).add(productId));
       }
-  
     } catch (err) {
       console.error("Error updating wishlist:", err);
     }
   };
-  
 
   const filteredProducts = products.filter(
     (product) => TAGS[Number(product.tag)] === selectedTab
@@ -114,11 +104,15 @@ const ProductGrid = () => {
 
   return (
     <div className="containes">
-      <div className="tabs">
+      <div className="tabs flex gap-4 mb-6">
         {TABS.map((tab) => (
           <button
             key={tab.key}
-            className={selectedTab === tab.key ? "active" : ""}
+            className={`px-4 py-2 rounded-full text-sm font-medium border ${
+              selectedTab === tab.key
+                ? "bg-black text-white"
+                : "bg-white text-black border-gray-300"
+            } transition`}
             onClick={() => setSelectedTab(tab.key)}
           >
             {tab.label}
@@ -126,42 +120,68 @@ const ProductGrid = () => {
         ))}
       </div>
 
-      {/* Error Message */}
-      {error && <p className="error">{error}</p>}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-      {/* Product Grid */}
-      <div className="grid">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-              <div className="text-xs text-gray-600 mb-2">{product.category}</div>
-              <Link 
-                to={`/auth/SinglePage/${product.id}`} 
-                className="block mb-2 text-blue-600 hover:text-blue-800 text-sm font-medium text-center"
+      {!wishlistLoaded ? (
+        <p className="text-center text-gray-500">Loading products...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div
+                key={product._id}
+                className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center"
               >
-                {product.name}
-              </Link>
-              <div className="w-32 h-32 flex justify-center items-center">
-                <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
-              </div>
-              <div className="flex items-center justify-between w-full mt-4">
-                <span className="text-lg font-semibold">${product.price.toFixed(2)}</span>
-                <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 rounded-full transition">
-                  🛒 Add to Cart
+                <div className="text-xs text-gray-600 mb-2">
+                  {product.category}
+                </div>
+                <Link
+                  to={`/auth/SinglePage/${product._id}`}
+                  className="block mb-2 text-blue-600 hover:text-blue-800 text-sm font-medium text-center"
+                >
+                  {product.name}
+                </Link>
+                <div className="w-32 h-32 flex justify-center items-center mb-4">
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 flex items-center justify-center text-gray-400 text-sm">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center justify-between w-full mt-auto">
+                  <span className="text-lg font-semibold">
+                    ${product.price.toFixed(2)}
+                  </span>
+                  <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-1 px-3 rounded-full text-sm transition">
+                    🛒 Add to Cart
+                  </button>
+                </div>
+                <button
+                  onClick={() => toggleWishlist(product._id)}
+                  className={`mt-2 text-base ${
+                    wishlist.has(product._id)
+                      ? "text-red-500"
+                      : "text-gray-400 hover:text-red-500"
+                  } transition`}
+                  title="Toggle Wishlist"
+                >
+                  {wishlist.has(product._id) ? "❤️" : "🤍"}
                 </button>
               </div>
-              <button
-                onClick={() => toggleWishlist(product.id)}
-                className={`mt-2 text-sm ${wishlist.has(product.id) ? "text-red-500" : "text-gray-500"} hover:text-red-600 transition`}
-              >
-                {wishlist.has(product.id) ? "❤️ Remove from Wishlist" : "🤍 Add to Wishlist"}
-              </button>
-            </div>
-          ))
-        ) : (
-          <p>No products found in {selectedTab}.</p>
-        )}
-      </div>
+            ))
+          ) : (
+            <p className="text-center col-span-4 text-gray-600">
+              No products found in <strong>{selectedTab}</strong>.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

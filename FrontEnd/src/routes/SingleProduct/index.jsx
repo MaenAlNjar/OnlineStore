@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Heart, RefreshCw, ShoppingCart, Minus, Plus, Star, Info, Truck, Shield, Clock } from "lucide-react";
 import axios from "axios";
+import apiRequest from "../../lip/apiReq";
 
 const SinglePage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -22,9 +23,10 @@ const SinglePage = () => {
   };
 
   useEffect(() => {
+  
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://localhost:7226/Product/${id}`);
+        const response = await apiRequest.get(`products/${id}`);
         setProduct(response.data);
         // If product has images array, set first one as selected
         if (response.data.images && response.data.images.length > 0) {

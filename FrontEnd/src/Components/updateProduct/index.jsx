@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import apiRequest from "../../lip/apiReq";
 
 const UpdateProduct = ({ productId, onUpdateSuccess }) => {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [categories, setCategories] = useState([]);
+  const { id } = useParams();
+
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://localhost:7226/Product/${productId}`);
+        const response = await apiRequest.get(`Products/${id}`);
         setProduct(response.data);
         setLoading(false);
       } catch (error) {
@@ -20,12 +24,12 @@ const UpdateProduct = ({ productId, onUpdateSuccess }) => {
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [id]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://localhost:7226/Category/all");
+        const response = await apiRequest.get("categories/all");
         if (response.data.success) {
           setCategories(response.data.data);
         } else {
@@ -49,29 +53,28 @@ const UpdateProduct = ({ productId, onUpdateSuccess }) => {
   };
 
   const handleFileChange = (e) => {
-    setProduct((prev) => ({ ...prev, imageUrl: e.target.files[0] }));
+    setProduct((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     for (const key in product) {
       formData.append(key, product[key]);
     }
-  
+
     console.log("Sending FormData:", Object.fromEntries(formData));
-  
+
     try {
-      const response = await axios.put(
-        `https://localhost:7226/Product/update/${productId}`,
+      const response = await apiRequest.put(
+        `Products/update/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-  
+
       if (response.data.success) {
         setMessage("Product updated successfully!");
-        
       } else {
         setMessage(response.data.message);
       }
@@ -80,7 +83,6 @@ const UpdateProduct = ({ productId, onUpdateSuccess }) => {
       console.error(error);
     }
   };
-  
 
   if (loading) return <p>Loading product details...</p>;
 
@@ -132,11 +134,7 @@ const UpdateProduct = ({ productId, onUpdateSuccess }) => {
         </label>
         <label>
           Tag:
-          <select
-            name="tag"
-            value={product.tag || ""}
-            onChange={handleChange}
-          >
+          <select name="tag" value={product.tag || ""} onChange={handleChange}>
             <option value={0}>0</option>
             <option value={1}>1</option>
             <option value={2}>2</option>

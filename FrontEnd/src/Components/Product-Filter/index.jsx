@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
-
+import apiRequest from "../../lip/apiReq"
 const ProductFilter = ({ onFilter }) => {
   const [name, setName] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -10,7 +10,7 @@ const ProductFilter = ({ onFilter }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://localhost:7226/Category/all");
+        const response = await apiRequest.get("categories/all");
         if (response.data?.success && Array.isArray(response.data.data)) {
           setCategories(response.data.data);
         } else {
@@ -26,18 +26,26 @@ const ProductFilter = ({ onFilter }) => {
 
   const handleFilter = async () => {
     try {
-      const response = await axios.get("https://localhost:7226/product/filter", {
-        params: { name, categoryId: categoryId || undefined },
+      const params = {};
+      if (name) params.name = name;
+  
+      if (categoryId) {
+        params.categoryId = categoryId;
+      }
+  
+      const response = await apiRequest.get("products/filter", {
+        params: params,
       });
-
+  
       onFilter(response.data || []);
-      console.log(response.data);
+      console.log(response.data); 
       
     } catch (error) {
       console.error("Error fetching products:", error);
-      onFilter([]);
+      onFilter([]); 
     }
   };
+  
 
   return (
     <div className="filter-container">

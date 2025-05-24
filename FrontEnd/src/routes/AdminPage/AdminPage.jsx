@@ -1,54 +1,31 @@
-import React, { useState } from "react";
-import "./index.css"; // Import the external CSS file
-import CatrgoryCreate from "../../Components/Category/index.jsx";
-import Products from "../../Components/Product/index.jsx";
-import ProductList from "../../Components/productList/index.jsx";
-const Dashboard = () => <div>Dashboard Content</div>;
-const Users = () => <div>Users Management</div>;
-const Settings = () => <div>Settings Page</div>;
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import "./index.css";
 
-const AdminPage = () => {
-  const [activeComponent, setActiveComponent] = useState("dashboard");
-
-  const renderComponent = () => {
-    switch (activeComponent) {
-      case "dashboard":
-        return <CatrgoryCreate />;
-      case "users":
-        return <Products />;
-      case "settings":
-        return <ProductList />;
-      default:
-        return <CatrgoryCreate />;
-    }
-  };
-
+const AdminLayout = () => {
   return (
     <div className="admin-container">
       {/* Sidebar */}
       <div className="sidebar">
         <h2 className="sidebar-title">Admin Panel</h2>
         <ul className="menu">
-          <li>
-            <button onClick={() => setActiveComponent("dashboard")}>
-              Category 
-            </button>
-          </li>
-          <li>
-            <button onClick={() => setActiveComponent("users")}>Create Product </button>
-          </li>
-          <li>
-            <button onClick={() => setActiveComponent("settings")}>
-            Products
-            </button>
-          </li>
+          <li><Link to="dashboard">Category</Link></li>
+          <li><Link to="create-product">Create Product</Link></li>
+          <li><Link to="products">Products</Link></li>
         </ul>
+
+        {/* Button at the end */}
+        <div className="sidebar-footer">
+          <Link to="/" className="back-home-btn">Back to Main</Link>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="main-conten">{renderComponent()}</div>
+      <div className="main-conten">
+        <Outlet /> 
+      </div>
     </div>
   );
 };
 
-export default AdminPage;
+export default AdminLayout;

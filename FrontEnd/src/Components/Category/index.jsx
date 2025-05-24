@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./index.css"
+import apiRequest from "../../lip/apiReq.js";
+
 const Index = () => { // Renamed to 'Index' instead of 'index'
     const [categoryName, setCategoryName] = useState('');
     const [message, setMessage] = useState('');
@@ -17,7 +19,7 @@ const Index = () => { // Renamed to 'Index' instead of 'index'
 
         setIsLoading(true);
         try {
-            const response = await axios.post('https://localhost:7226/Category/create', {
+            const response = await apiRequest.post('categories/create', {
                 name: categoryName
             });
 
