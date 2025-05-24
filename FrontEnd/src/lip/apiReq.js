@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiRequest = axios.create({
-  baseURL: "http://localhost:8888/" ,
+  baseURL: "https://onlinestore-backend-x1w9.onrender.com/" ,
   headers: {
     'Content-Type': 'application/json',
   },});
