@@ -10,7 +10,6 @@ const ProductGrid = () => {
   const [error, setError] = useState("");
   const [wishlist, setWishlist] = useState(new Set());
   const [userId, setUserId] = useState(null);
-
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const id = user?.id || user?._id;
@@ -24,6 +23,8 @@ const ProductGrid = () => {
         if (response.data?.data) {
           setCategories(response.data.data);
           setSelectedCategory(response.data.data[0]?.name || null); // أول تصنيف افتراضيًا
+          console.log(error,"fixing error ");
+          
         } else {
           setError("فشل في تحميل التصنيفات.");
         }
@@ -32,7 +33,7 @@ const ProductGrid = () => {
       }
     };
     fetchCategories();
-  }, []);
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {

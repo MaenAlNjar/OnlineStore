@@ -49,9 +49,6 @@ const EcommerceHeader = () => {
     { name: "Accessories", link: "#", hasSubmenu: true },
   ];
 
-  // Get current slide data based on activeSlide index
-  const currentSlide = slides[activeSlide];
-
   return (
     <div className="Header-Continer">
       {/* Top Navigation */}
@@ -65,21 +62,30 @@ const EcommerceHeader = () => {
             </button>
 
             <div className="flex space-x-6">
-              <a
-                href="#"
-                className="text-red-500 hover:text-red-600 font-medium"
+              <button
+                type="button"
+                className="text-black-500 hover:text-red-600 font-medium bg-transparent border-none cursor-pointer"
               >
                 Super Deals
-              </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              </button>
+              <button
+                type="button"
+                className="text-black-500 hover:text-red-600 font-medium bg-transparent border-none cursor-pointer"
+              >
                 Featured Brands
-              </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              </button>
+              <button
+                type="button"
+                className="text-black-500 hover:text-red-600 font-medium bg-transparent border-none cursor-pointer"
+              >
                 Trending Styles
-              </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              </button>
+              <button
+                type="button"
+                className="text-black-500 hover:text-red-600 font-medium bg-transparent border-none cursor-pointer"
+              >
                 Gift Cards
-              </a>
+              </button>
             </div>
           </div>
 

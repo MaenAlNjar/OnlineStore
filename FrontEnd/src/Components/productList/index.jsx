@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./index.css";
 import ProductFilter from "../Product-Filter/index.jsx";
 import apiRequest from "../../lip/apiReq";
@@ -45,9 +44,8 @@ const ProductList = () => {
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <div key={product._id} className="product-card">
-              <a href="#" className="product-name">
-                {product.name}
-              </a>
+              <span className="product-name">{product.name}</span>
+
               <img
                 src={product.image || "/placeholder.png"}
                 alt={product.name}

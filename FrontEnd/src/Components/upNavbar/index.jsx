@@ -33,7 +33,10 @@ const TopNavbar = () => {
             <a href="/featured" className="text-gray-600 hover:text-gray-900">
               Featured Products
             </a>
-            <a href="/auth/Wishlist" className="text-gray-600 hover:text-gray-900 flex items-center">
+            <a
+              href="/auth/Wishlist"
+              className="text-gray-600 hover:text-gray-900 flex items-center"
+            >
               <Heart className="w-4 h-4 mr-1" />
               Wishlist
             </a>
@@ -50,14 +53,20 @@ const TopNavbar = () => {
                 Sign In
               </button>
             ) : (
-              <button onClick={handleLogout} className="text-gray-600 hover:text-gray-900">
+              <button
+                onClick={handleLogout}
+                className="text-gray-600 hover:text-gray-900"
+              >
                 Logout
               </button>
             )}
 
             {/* Show My Account if logged in */}
             {isLoggedIn && (
-              <a href="/account" className="text-gray-600 hover:text-gray-900 flex items-center">
+              <a
+                href="/account"
+                className="text-gray-600 hover:text-gray-900 flex items-center"
+              >
                 <User className="w-4 h-4 mr-1" />
                 My Account
               </a>
@@ -79,15 +88,16 @@ const TopNavbar = () => {
 
               {currencyOpen && (
                 <div className="absolute right-0 mt-2 w-24 bg-white border border-gray-200 rounded-md shadow-lg">
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     USD
-                  </a>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </button>
+
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     EUR
-                  </a>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     GBP
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -104,15 +114,15 @@ const TopNavbar = () => {
 
               {languageOpen && (
                 <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     English
-                  </a>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Español
-                  </a>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Français
-                  </a>
+                  </button>
                 </div>
               )}
             </div>

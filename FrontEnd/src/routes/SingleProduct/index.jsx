@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Heart, RefreshCw, ShoppingCart, Minus, Plus, Star, Info, Truck, Shield, Clock } from "lucide-react";
-import axios from "axios";
+import {
+  Heart,
+  RefreshCw,
+  ShoppingCart,
+  Star,
+  Truck,
+  Shield,
+  Clock,
+} from "lucide-react";
 import apiRequest from "../../lip/apiReq";
 
 const SinglePage = () => {
-  const [quantity, setQuantity] = useState(1);
   const { id } = useParams(); // Get product ID from URL
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
   useEffect(() => {
-  
     const fetchProduct = async () => {
       try {
         const response = await apiRequest.get(`products/${id}`);
@@ -43,33 +38,35 @@ const SinglePage = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-  );
-  
-  if (error) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg max-w-md">
-        <h3 className="font-bold">Error Loading Product</h3>
-        <p>{error}</p>
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
-    </div>
-  );
+    );
+
+  if (error)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg max-w-md">
+          <h3 className="font-bold">Error Loading Product</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
 
   // Mock data for display purposes - in real app, this would come from product
-  const productImages = product.images || [product.image]; 
+  const productImages = product.images || [product.image];
   const rating = product.rating || 4.5;
   const reviewCount = product.reviewCount || 24;
-  
+
   return (
     <div className="max-w-7xl mx-auto p-4 lg:p-8">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
         Home / {product.category} / {product.name}
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Product Images Section */}
         <div className="lg:w-1/2">
@@ -80,18 +77,26 @@ const SinglePage = () => {
               className="w-full h-96 object-contain p-4"
             />
           </div>
-          
+
           {/* Thumbnails */}
           {productImages.length > 1 && (
             <div className="flex gap-2 overflow-x-auto pb-2">
               {productImages.map((img, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`w-20 h-20 border rounded cursor-pointer p-1 flex-shrink-0 
-                    ${selectedImage === index ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}`}
+                    ${
+                      selectedImage === index
+                        ? "border-blue-500 ring-2 ring-blue-200"
+                        : "border-gray-200"
+                    }`}
                   onClick={() => setSelectedImage(index)}
                 >
-                  <img src={img} alt={`${product.name} - view ${index+1}`} className="w-full h-full object-contain" />
+                  <img
+                    src={img}
+                    alt={`${product.name} - view ${index + 1}`}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               ))}
             </div>
@@ -100,26 +105,30 @@ const SinglePage = () => {
 
         {/* Product Details Section */}
         <div className="lg:w-1/2">
-          <div className="text-sm text-gray-500 uppercase tracking-wider mb-2">{product.category}</div>
+          <div className="text-sm text-gray-500 uppercase tracking-wider mb-2">
+            {product.category}
+          </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             {product.name}
           </h1>
-          
+
           {/* Reviews */}
           <div className="flex items-center mb-6">
             <div className="flex text-yellow-400 mr-2">
               {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i} 
-                  size={16} 
+                <Star
+                  key={i}
+                  size={16}
                   fill={i < Math.floor(rating) ? "currentColor" : "none"}
                   className={i < Math.floor(rating) ? "" : "text-gray-300"}
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-500">{rating} ({reviewCount} reviews)</span>
+            <span className="text-sm text-gray-500">
+              {rating} ({reviewCount} reviews)
+            </span>
           </div>
-          
+
           {/* Price & Stock */}
           <div className="mb-6">
             <div className="flex items-baseline">
@@ -140,25 +149,28 @@ const SinglePage = () => {
               )}
             </div>
           </div>
-          
+
           {/* Description */}
           <div className="mb-6 text-gray-600 leading-relaxed">
-            <p>{product.description || "No description available for this product."}</p>
+            <p>
+              {product.description ||
+                "No description available for this product."}
+            </p>
           </div>
-          
+
           {/* Divider */}
           <hr className="my-6 border-gray-200" />
-          
+
           {/* Add to Cart */}
           <div className="mb-6">
-            <div className="flex items-center">             
+            <div className="flex items-center">
               <button className="ml-4 flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition duration-200 shadow-sm">
                 <ShoppingCart size={18} className="mr-2" />
                 Add to Cart
               </button>
             </div>
           </div>
-          
+
           {/* Wishlist & Compare */}
           <div className="flex gap-6 mb-6">
             <button className="flex items-center text-gray-600 hover:text-blue-600 text-sm transition duration-200">
@@ -170,7 +182,7 @@ const SinglePage = () => {
               Compare
             </button>
           </div>
-          
+
           {/* Benefits */}
           <div className="bg-gray-50 rounded-lg p-4 mt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -188,7 +200,7 @@ const SinglePage = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Product details/codes */}
           <div className="mt-6 text-sm text-gray-500">
             <p>SKU: {product.sku || `SKU-${id}`}</p>

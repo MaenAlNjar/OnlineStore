@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
 import apiRequest from "../../lip/apiReq";
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState([]);
@@ -21,30 +22,19 @@ const Navbar = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchCart();
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [userData]);
-
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     if (!userData?._id) return;
     try {
       const response = await apiRequest.get(`cart/user-cart/${userData._id}`);
-
       const cart = response.data.cart.products || [];
       setCartItems(cart);
 
-      // Calculate total quantity of items in the cart
       const totalItems = cart.reduce(
         (count, product) => count + (product.quantity || 1),
         0
       );
       setCartItemsCount(totalItems);
 
-      // Calculate total price of items in the cart
       const total = cart.reduce(
         (sum, product) => sum + product.price * (product.quantity || 1),
         0
@@ -53,11 +43,19 @@ const Navbar = () => {
     } catch (error) {
       console.error("Failed to fetch cart:", error);
     }
-  };
+  }, [userData]);
 
   useEffect(() => {
     fetchCart();
-  }, [userData]);
+  }, [fetchCart]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchCart();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [fetchCart]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

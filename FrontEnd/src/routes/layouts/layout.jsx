@@ -51,4 +51,5 @@ const AuthLayout = () => {
   );
 };
 
-export default { Layout, AuthLayout };
+const layouts = { Layout, AuthLayout };
+export default layouts;

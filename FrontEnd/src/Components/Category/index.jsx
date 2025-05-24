@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import  { useState } from 'react';
 import "./index.css"
 import apiRequest from "../../lip/apiReq.js";
 

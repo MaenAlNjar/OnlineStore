@@ -1,7 +1,7 @@
 import React from "react";
 import { Send, Facebook, Twitter, Github } from "lucide-react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./index.css"; // Import the external CSS file
+import "./index.css";
 
 const Footer = () => {
   return (
@@ -33,17 +33,18 @@ const Footer = () => {
             electro<span className="dot">.</span>
           </h2>
           <div className="footer-contact">
-          <span className="footer-icon">🎧</span>
-          <div>
+            <span className="footer-icon">🎧</span>
+            <div>
               <p className="contact-text">Got questions? Call us 24/7!</p>
               <p className="contact-number">(800) 8001-8588, (0600) 874 548</p>
             </div>
           </div>
           <p className="footer-address">17 Princess Road, London, Greater London NW1 8JR, UK</p>
           <div className="footer-social">
-            <a href="#" className="social-link"><Facebook size={20} /></a>
-            <a href="#" className="social-link"><Twitter size={20} /></a>
-            <a href="#" className="social-link"><Github size={20} /></a>
+            {/* خلينا الأيقونات تبقى زي ما هي، ممكن تخليها بدون رابط */}
+            <span className="social-link"><Facebook size={20} /></span>
+            <span className="social-link"><Twitter size={20} /></span>
+            <span className="social-link"><Github size={20} /></span>
           </div>
         </div>
 
@@ -52,7 +53,7 @@ const Footer = () => {
           <h3 className="footer-title">Find it Fast</h3>
           <ul className="footer-list">
             {["Laptops & Computers", "Cameras & Photography", "Smart Phones & Tablets", "Video Games & Consoles", "TV & Audio", "Gadgets", "Car Electronic & GPS"].map((item) => (
-              <li key={item}><a href="#" className="footer-link">{item}</a></li>
+              <li key={item}><span className="footer-link">{item}</span></li>
             ))}
           </ul>
         </div>
@@ -60,7 +61,7 @@ const Footer = () => {
         <div className="footer-section">
           <ul className="footer-list">
             {["Printers & Ink", "Software", "Office Supplies", "Computer Components", "Accessories"].map((item) => (
-              <li key={item}><a href="#" className="footer-link">{item}</a></li>
+              <li key={item}><span className="footer-link">{item}</span></li>
             ))}
           </ul>
         </div>
@@ -69,7 +70,7 @@ const Footer = () => {
           <h3 className="footer-title">Customer Care</h3>
           <ul className="footer-list">
             {["My Account", "Order Tracking", "Wish List", "Customer Service", "Returns / Exchange", "FAQs", "Product Support"].map((item) => (
-              <li key={item}><a href="#" className="footer-link">{item}</a></li>
+              <li key={item}><span className="footer-link">{item}</span></li>
             ))}
           </ul>
         </div>

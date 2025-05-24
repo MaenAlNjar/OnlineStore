@@ -1,6 +1,4 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 import "./App.css";
 
 import LayoutAndAuthLayout from "./routes/layouts/layout.jsx";

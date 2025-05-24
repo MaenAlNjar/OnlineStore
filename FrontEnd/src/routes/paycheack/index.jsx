@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
 import apiRequest from "../../lip/apiReq";
 
 const ShoppingCart = ({ userId }) => {
@@ -8,13 +7,7 @@ const ShoppingCart = ({ userId }) => {
   const shippingCost = 300.0;
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    if (user && user._id) {
-      fetchCart();
-    }
-  }, []);
-
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     try {
       const response = await apiRequest.get(`cart/user-cart/${user._id}`);
       setCartItems(response.data.cart.products || []);
@@ -25,13 +18,19 @@ const ShoppingCart = ({ userId }) => {
       );
       setCartItems([]);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user && user._id) {
+      fetchCart();
+    }
+  }, [user, fetchCart]);
 
   const updateQuantity = async (productId, newQuantity) => {
     if (newQuantity < 1) return;
 
     try {
-      const response = await apiRequest.put(`cart/update`, {
+      await apiRequest.put(`cart/update`, {
         userId: user._id,
         productId,
         quantity: newQuantity,

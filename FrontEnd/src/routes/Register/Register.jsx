@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiRequest from "../../lip/apiReq.js";
 
@@ -22,8 +22,8 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await apiRequest.post("users/register", {
-        username:formData.username,
+      await apiRequest.post("users/register", {
+        username: formData.username,
         email: formData.email,
         password: formData.password,
       });

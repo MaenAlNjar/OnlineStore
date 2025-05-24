@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import "./index.css";
-import axios from "axios";
-import apiRequest from "../../lip/apiReq"
+import apiRequest from "../../lip/apiReq";
 const SearchFilter = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -20,17 +17,16 @@ const SearchFilter = () => {
         if (response.data.success) {
           setCategories(response.data.data);
         } else {
-          setError(response.data.message || "Failed to load categories.");
+          console.log("Failed to load categories");
         }
       } catch (err) {
-        setError("An error occurred while fetching data.");
+        console.log("Failed ");
       }
     };
 
     fetchCategories();
   }, []);
 
-  // Fetch filtered products based on search and selected category
   useEffect(() => {
     if (searchTerm.length < 1) {
       setFilteredProducts([]); // Clear results when search is empty
@@ -38,7 +34,6 @@ const SearchFilter = () => {
     }
 
     const fetchFilteredProducts = async () => {
-      setIsLoading(true);
       try {
         const categoryId =
           selectedCategory !== "All Categories"
@@ -57,14 +52,14 @@ const SearchFilter = () => {
           setFilteredProducts([]);
         }
       } catch (err) {
-        setError("An error occurred while fetching products.");
+        console.log("Failed to load categories");
       } finally {
-        setIsLoading(false);
+        console.log("Failed to load categories");
       }
     };
 
     fetchFilteredProducts();
-  }, [searchTerm, selectedCategory]);
+}, [searchTerm, selectedCategory, categories]);
 
   return (
     <div className="search-filter-wrapper">
